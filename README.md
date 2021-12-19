@@ -26,3 +26,5 @@ override.tf.json
 .terraformrc
 terraform.rc
 # конкретные два файла с названиями .terraformrc (скрытый) и terraform.rc
+
+#new line for branch fix
