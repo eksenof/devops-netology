@@ -28,3 +28,5 @@ terraform.rc
 # конкретные два файла с названиями .terraformrc (скрытый) и terraform.rc
 
 #new line for branch fix
+
+#one more line for git view in PyCharm
