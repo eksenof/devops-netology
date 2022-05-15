@@ -1,24 +1,26 @@
 #!/usr/bin/env python3
 
-import os
+import socket
 
-servers = ['drive.google.com', 'mail.google.com', 'google.com']
-i = 0
+change = False
+d = {}
+f = open('hosts_ip.txt', 'rt')
 
-for host in servers:
-    bash_command = f"ping -a -c 1 {host}"
-    ping_host = os.popen(bash_command).read()
-    ping_line = ping_host.split('\n')[1]
-    host_ip = ping_line.split(' ')[4]
+for line in f:
+    host,value = line.strip().split('   -   ')
+    d[host] = value
+    host_ip=socket.gethostbyname(host)
     host_line = host + '   -   ' + host_ip
-    line = open('hosts_ip.txt').read().split('\n')[i]
-    if host_line != line:
-        print('изменение адреса сервера:\nбыл  ', line, '\nстал ', host_line)
-        with open('hosts_ip.txt', 'rt') as f:
-            x = f.read()
-        with open('hosts_ip.txt', 'wt') as f:
-            x = x.replace(line, host_line)
-            f.write(x)
+    if (host_line + '\n') != line:
+        print('изменение адреса сервера:\n был  ', line, 'стал ', host_line)
+        change = True
+        d[host] = host_ip
     else:
         print('адрес сервера ', host, ' не изменился и = ', host_ip)
-    i = i + 1
+
+if change:
+    with open('hosts_ip.txt', 'wt') as f:
+        for host in d:
+            print(f'{host}   -   {d[host]}', file=f)
+
+f.close
