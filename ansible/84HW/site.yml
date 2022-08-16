@@ -1,0 +1,7 @@
+- name: test my collection
+  hosts: localhost
+  collections:
+    - intern.internc
+  tasks:
+    - import_role:
+        name: intern
