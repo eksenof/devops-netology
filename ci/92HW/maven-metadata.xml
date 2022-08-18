@@ -1,0 +1,7 @@
+<dependency>
+  <groupId>netology</groupId>
+  <artifactId>java</artifactId>
+  <version>8_102</version>
+  <classifier>distrib</classifier>
+  <type>tar.gz</type>
+</dependency>
