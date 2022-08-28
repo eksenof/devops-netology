@@ -1,0 +1,10 @@
+---
+  - name: Installation monitoring service
+    hosts: monitoring
+    become: yes
+    become_user: root
+    remote_user: root
+    roles:
+      - prometheus
+      - alertmanager
+      - grafana

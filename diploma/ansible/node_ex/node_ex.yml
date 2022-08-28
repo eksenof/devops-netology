@@ -1,0 +1,10 @@
+---
+  - name: Installation Node Exporten on all hosts
+    hosts:
+      - nle
+      - monitoring
+    become: yes
+    become_user: root
+    remote_user: root
+    roles:
+      - node_ex

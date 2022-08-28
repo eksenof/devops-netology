@@ -1,0 +1,9 @@
+---
+  - name: Installation gitlab
+    hosts: gitlab
+    become: yes
+    become_user: root
+    remote_user: root
+    gather_facts: true
+    roles:
+      - gitlab

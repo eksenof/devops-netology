@@ -1,0 +1,8 @@
+---
+  - name: Installation Nginx and LetsEncrypt
+    hosts: nle
+    become: yes
+    become_user: root
+    remote_user: root
+    roles:
+      - nle

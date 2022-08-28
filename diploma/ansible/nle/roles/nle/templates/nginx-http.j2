@@ -1,0 +1,29 @@
+server_tokens off;
+
+server {
+    listen 80;
+    server_name eksen.space;
+
+    location /.well-known/acme-challenge {
+        root /var/www/letsencrypt;
+        try_files $uri $uri/ =404;
+    }
+
+    location / {
+        rewrite ^ https://eksen.space$request_uri? permanent;
+    }
+}
+
+server {
+    listen 80;
+    server_name gitlab.eksen.space;
+
+    location /.well-known/acme-challenge {
+        root /var/www/letsencrypt;
+        try_files $uri $uri/ =404;
+    }
+
+    location / {
+        rewrite ^ https://gitlab.eksen.space$request_uri? permanent;
+    }
+}

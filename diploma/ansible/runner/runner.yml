@@ -1,0 +1,8 @@
+---
+  - name: Installation gitlab
+    hosts: runner
+    become: yes
+    become_user: root
+    remote_user: root
+    roles:
+      - runner

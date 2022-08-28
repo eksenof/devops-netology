@@ -1,0 +1,6 @@
+#cloud-config
+users:
+  - name: root
+    shell: /bin/bash
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZj6SEHm6x7G52hGt/05cSBCfB2BumRBxx2m5uSqw9pofK0c7R8W01Xt9RCWKtOkVjX5XhBH+Amm1uaAizuByZsWg891JzmgniIBscqt4rmGyAYQrNAp6Gn62nnT/vVtaroe1d1TkoIecLghUVtIscrtg5vi8LQHLEIQRlfSIeUPG1+8WVE39Trum4I8LAj/8rN9n5b6DFiD69OtVL0YTarLicWMXBLXlvKB7D/291yKOT8keSigq9bLVSFM6a7Xps4G2+cZetxiPvVja9aoYV6Kyf5+ZgZUl1eJSgvAGyRgzdFhqUDOmpSLttWlRIugP161f/JCFlsyOa18eWj/jz root@intern-ThinkPad-L460
