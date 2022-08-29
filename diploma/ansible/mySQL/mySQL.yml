@@ -1,6 +1,8 @@
 ---
   - name: Installation mysql-server
-    hosts: db
+    hosts:
+      - db01
+      - db02
     become: yes
     become_user: root
     remote_user: root

@@ -77,7 +77,81 @@ resource "yandex_compute_instance" "vm" {
 
 }
 
+
 #-----------------------------------------------------------------------
+
+resource "yandex_compute_instance" "vms" {
+  count    = 3
+  name     = "vms${count.index}"
+  zone     = "ru-central1-a"
+  hostname = "vms${count.index}.netology.cloud"
+
+  resources {
+    cores  = 4
+    memory = 4
+  }
+
+  network_interface {
+    subnet_id  = yandex_vpc_subnet.subnet1.id
+    nat        = true
+    ip_address = "192.168.1.1${count.index}"
+  }
+
+#image_id is free image ubintu-20.04-LTS from yandex.cloud marketplace
+  boot_disk {
+    initialize_params {
+      image_id = "fd8ofg98ci78v262j491"
+      name     = "disk${count.index}"
+    }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  metadata = {
+     user-data = "${file("ssh-key")}"
+  }
+
+}
+
+
+#---------------------------------------------------------
+
+resource "yandex_compute_instance" "vms3" {
+  name     = "vms3"
+  zone     = "ru-central1-a"
+  hostname = "vms3.netology.cloud"
+
+  resources {
+    cores  = 4
+    memory = 4
+  }
+
+  network_interface {
+    subnet_id  = yandex_vpc_subnet.subnet1.id
+    nat        = true
+    ip_address = "192.168.1.13"
+  }
+
+#image_id is free image ubintu-20.04-LTS from yandex.cloud marketplace
+  boot_disk {
+    initialize_params {
+      image_id = "fd8ofg98ci78v262j491"
+      name     = "disk3"
+      size     = 10
+    }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  metadata = {
+     user-data = "${file("ssh-key")}"
+  }
+
+}
 
 resource "yandex_compute_instance" "vms4" {
   name     = "vms4"
@@ -113,3 +187,39 @@ resource "yandex_compute_instance" "vms4" {
 
 }
 
+
+#---------------------------------------------------------
+
+resource "yandex_compute_instance" "vms5" {
+  name     = "vms5"
+  zone     = "ru-central1-a"
+  hostname = "vms5.netology.cloud"
+
+  resources {
+    cores  = 4
+    memory = 4
+  }
+
+  network_interface {
+    subnet_id  = yandex_vpc_subnet.subnet1.id
+    nat        = true
+    ip_address = "192.168.1.15"
+  }
+
+#image_id is free image ubintu-20.04-LTS from yandex.cloud marketplace
+  boot_disk {
+    initialize_params {
+      image_id = "fd8ofg98ci78v262j491"
+      name     = "disk5"
+    }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  metadata = {
+     user-data = "${file("ssh-key")}"
+  }
+
+}

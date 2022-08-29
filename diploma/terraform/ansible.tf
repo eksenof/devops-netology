@@ -18,13 +18,45 @@ resource "null_resource" "nle" {
   ]
 }
 
+
+resource "null_resource" "mySQL" {
+  provisioner "local-exec" {
+    command = "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../ansible/inventory.yml ../ansible/mySQL/mySQL.yml"
+  }
+
+ depends_on = [
+    null_resource.nle
+  ]
+}
+
+resource "null_resource" "wordpress" {
+  provisioner "local-exec" {
+    command = "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../ansible/inventory.yml ../ansible/wordpress/wordpress.yml"
+  }
+
+ depends_on = [
+    null_resource.mySQL
+  ]
+}
+
+
+resource "null_resource" "gitlab" {
+  provisioner "local-exec" {
+    command = "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../ansible/inventory.yml ../ansible/gitlab/gitlab.yml"
+  }
+
+ depends_on = [
+    null_resource.wordpress
+  ]
+}
+
 resource "null_resource" "monitoring" {
   provisioner "local-exec" {
     command = "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../ansible/inventory.yml ../ansible/monitoring/monitoring.yml"
   }
 
  depends_on = [
-    null_resource.nle
+    null_resource.gitlab
   ]
 }
 
