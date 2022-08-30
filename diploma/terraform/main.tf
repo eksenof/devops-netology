@@ -26,6 +26,7 @@ provider "yandex" {
   service_account_key_file = "key.json"
 }
 
+#--- создание сетей и подсетей ------------------------------------------------
 
 resource "yandex_vpc_network" "net" {
   name = "net"
@@ -39,8 +40,65 @@ resource "yandex_vpc_subnet" "subnet1" {
   v4_cidr_blocks = ["192.168.1.0/24"]
 }
 
+#--- создание записей dns ------------------------------------------------------
 
-#-----------------------------------------------------------------------
+resource "yandex_dns_zone" "eksen" {
+  name = "eksen"
+  zone = "eksen.space."
+  public = true
+}
+
+resource "yandex_dns_recordset" "rs1" {
+  zone_id = yandex_dns_zone.eksen.id
+  name = "@"
+  type = "A"
+  ttl = 90
+  data = [var.yc_public_ip]
+}
+
+resource "yandex_dns_recordset" "rs2" {
+  zone_id = yandex_dns_zone.eksen.id
+  name = "www.eksen.space."
+  type = "A"
+  ttl = 90
+  data = [var.yc_public_ip]
+}
+
+resource "yandex_dns_recordset" "rs3" {
+  zone_id = yandex_dns_zone.eksen.id
+  name = "gitlab.eksen.space."
+  type = "A"
+  ttl = 90
+  data = [var.yc_public_ip]
+}
+
+resource "yandex_dns_recordset" "rs4" {
+  zone_id = yandex_dns_zone.eksen.id
+  name = "grafana.eksen.space."
+  type = "A"
+  ttl = 90
+  data = [var.yc_public_ip]
+}
+
+resource "yandex_dns_recordset" "rs5" {
+  zone_id = yandex_dns_zone.eksen.id
+  name = "prometheus.eksen.space."
+  type = "A"
+  ttl = 90
+  data = [var.yc_public_ip]
+}
+
+resource "yandex_dns_recordset" "rs6" {
+  zone_id = yandex_dns_zone.eksen.id
+  name = "alertmanager.eksen.space."
+  type = "A"
+  ttl = 90
+  data = [var.yc_public_ip]
+}
+
+
+#--- создание виртуальных машин ------------------------------------------------
+#--- vm - основная машина 2Гб+2Гб nginx + EL------------------------------------------------
 
 resource "yandex_compute_instance" "vm" {
   name     = "vm"
@@ -78,7 +136,7 @@ resource "yandex_compute_instance" "vm" {
 }
 
 
-#-----------------------------------------------------------------------
+#--- vms - 4 машинs 4Гб+4Гб  ----------------------------------------------------------
 
 resource "yandex_compute_instance" "vms" {
   count    = 3
@@ -116,7 +174,7 @@ resource "yandex_compute_instance" "vms" {
 }
 
 
-#---------------------------------------------------------
+#----- vms - 1 машинa 4Гб+4Гб+10Гб -------------------------------------------------
 
 resource "yandex_compute_instance" "vms3" {
   name     = "vms3"
@@ -153,6 +211,8 @@ resource "yandex_compute_instance" "vms3" {
 
 }
 
+#------машина для раннера  ---------------------------------------------------
+
 resource "yandex_compute_instance" "vms4" {
   name     = "vms4"
   zone     = "ru-central1-a"
@@ -188,7 +248,7 @@ resource "yandex_compute_instance" "vms4" {
 }
 
 
-#---------------------------------------------------------
+#----- машина для мониторинга ----------------------------------------------------
 
 resource "yandex_compute_instance" "vms5" {
   name     = "vms5"
