@@ -48,7 +48,7 @@ resource "yandex_dns_zone" "eksen" {
   public = true
 }
 
-resource "yandex_dns_recordset" "rs1" {
+resource "yandex_dns_recordset" "rs0" {
   zone_id = yandex_dns_zone.eksen.id
   name = "@"
   type = "A"
@@ -56,7 +56,7 @@ resource "yandex_dns_recordset" "rs1" {
   data = [var.yc_public_ip]
 }
 
-resource "yandex_dns_recordset" "rs2" {
+resource "yandex_dns_recordset" "rs1" {
   zone_id = yandex_dns_zone.eksen.id
   name = "www.eksen.space."
   type = "A"
@@ -64,7 +64,7 @@ resource "yandex_dns_recordset" "rs2" {
   data = [var.yc_public_ip]
 }
 
-resource "yandex_dns_recordset" "rs3" {
+resource "yandex_dns_recordset" "rs2" {
   zone_id = yandex_dns_zone.eksen.id
   name = "gitlab.eksen.space."
   type = "A"
@@ -72,7 +72,7 @@ resource "yandex_dns_recordset" "rs3" {
   data = [var.yc_public_ip]
 }
 
-resource "yandex_dns_recordset" "rs4" {
+resource "yandex_dns_recordset" "rs3" {
   zone_id = yandex_dns_zone.eksen.id
   name = "grafana.eksen.space."
   type = "A"
@@ -80,7 +80,7 @@ resource "yandex_dns_recordset" "rs4" {
   data = [var.yc_public_ip]
 }
 
-resource "yandex_dns_recordset" "rs5" {
+resource "yandex_dns_recordset" "rs4" {
   zone_id = yandex_dns_zone.eksen.id
   name = "prometheus.eksen.space."
   type = "A"
@@ -88,7 +88,7 @@ resource "yandex_dns_recordset" "rs5" {
   data = [var.yc_public_ip]
 }
 
-resource "yandex_dns_recordset" "rs6" {
+resource "yandex_dns_recordset" "rs5" {
   zone_id = yandex_dns_zone.eksen.id
   name = "alertmanager.eksen.space."
   type = "A"

@@ -3,41 +3,65 @@
     apt:
       update_cache: yes
 
-  - name: Installing nginx and letsencrypt
+  - name: Installing nginx, squid, letsencrypt
     apt:
       name: 
         - nginx
         - letsencrypt
       state: latest
 
-  - name: Creating LetsEncrypt directory
+  - name: create letsencrypt directory
     file:
       name: /var/www/letsencrypt
       state: directory
 
-  - name: Removing default site config for nginx
+  - name: Remove default nginx config
     file:
       name: /etc/nginx/sites-enabled/default
       state: absent
 
-  - name: Installing nginx basic http site for nginx
+  - name: Install nginx http
     template:
       src: templates/nginx-http.j2
       dest: /etc/nginx/sites-enabled/http
 
   - name: Installing nginx config
+    become: true
     template:
       src: templates/nginx.conf
       dest: /etc/nginx/nginx.conf
+      
+  - name: Installing nginx config
+    become: true
+    template:
+      src: templates/eksen.space.conf
+      dest: /etc/nginx/conf.d/eksen.space.conf
+
+   
+#  - name: Prepering letsencrypt - creating certificate
+#    shell: letsencrypt certonly -n --webroot -w /var/www/letsencrypt -m {{ email }} --agree-tos -d {{ domain }} -d www.{{ domain }} -d gitlab.{{ domain }} -d prometheus.{{ domain }} -d grafana.{{ domain }} -d alertmanager.{{ domain }}
+#    args:
+#      creates: /etc/letsencrypt/live/{{ domain }}
+
+  - name: copy certs from templates 
+    copy:
+      src: templates/letsencrypt/live/
+      dest: /etc/letsencrypt/live/
+
+#  - name: Enabling https 
+#    template:
+#      src: templates/nginx-https.j2
+#      dest: /etc/nginx/sites-enabled/https
+
 
   - name: Adding basic html page
     template:
       src: templates/index.html
-      dest: /var/www/index.html
+      dest: /var/www/html/index.html
 
   - name: Reloading nginx
     service:
       name: nginx
       state: restarted
       enabled: true
-
+      
