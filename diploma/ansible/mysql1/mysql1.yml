@@ -1,0 +1,10 @@
+---
+  - name: Installation mySQL
+    hosts:
+      - db01
+      - db02
+    become: yes
+    become_user: root
+    remote_user: root
+    roles:
+      - mysql1
