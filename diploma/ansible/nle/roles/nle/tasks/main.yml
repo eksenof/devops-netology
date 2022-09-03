@@ -1,4 +1,17 @@
 ---
+  - name: add hosts in local net in hosts file
+    become: true
+    lineinfile:
+      path: /etc/hosts
+      line: 
+        - 192.168.1.9  nle.eksen.space
+        - 192.168.1.10 db01.eksen.space
+        - 192.168.1.11 db02.eksen.space
+        - 192.168.1.12 app.eksen.space
+        - 192.168.1.13 gitlab.eksen.space
+        - 192.168.1.14 runner.eksen.space 
+        - 192.168.1.15 monitoring.eksen.space
+
   - name: Updating remote system
     apt:
       update_cache: yes

@@ -1,5 +1,5 @@
 ---
-  - name: Installation nginx and setup reverse proxy with TLS
+  - name: Installation nginx and wordpress
     hosts: wordpress
     become: yes
     become_user: root

@@ -28,4 +28,5 @@
       login_user: wordpress
       login_password: "wordpress"
       check_implicit_admin: yes
+      host: '%'
       priv: "*.*:ALL,GRANT"

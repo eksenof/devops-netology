@@ -29,7 +29,7 @@ define( 'DB_USER', 'wordpress' );
 define( 'DB_PASSWORD', 'wordpress' );
 
 /** Database hostname */
-define( 'DB_HOST', '192.168.1.12' );
+define( 'DB_HOST', 'db01.eksen.space' );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
@@ -78,5 +78,17 @@ $table_prefix = 'wp_';
  * visit the documentation.
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
- */
-Footer
+*/
+
+// Enable WP_DEBUG mode
+define( 'WP_DEBUG', true );
+
+/* That's all, stop editing! Happy publishing. */
+
+/** Absolute path to the WordPress directory. */
+if ( ! defined( 'ABSPATH' ) ) {
+	define( 'ABSPATH', __DIR__ . '/' );
+}
+
+/** Sets up WordPress vars and included files. */
+require_once ABSPATH . 'wp-settings.php';
