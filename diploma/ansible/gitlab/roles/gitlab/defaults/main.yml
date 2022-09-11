@@ -8,6 +8,12 @@ gitlab_version: ''
 gitlab_backup_path: "/var/opt/gitlab/backups"
 gitlab_config_template: "gitlab.rb.j2"
 
+# GitLab root password after install
+gitlab_root_pass: "G1tl@bP@$$w0rd"
+
+# GitLab runner token after install
+gitlab_runner_token: "45817210-36f6-4093-8df5-f76b60481a09"
+
 # SSL Configuration.
 gitlab_redirect_http_to_https: false
 gitlab_ssl_certificate: "/etc/gitlab/ssl/{{ gitlab_domain }}.crt"

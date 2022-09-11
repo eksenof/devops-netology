@@ -1,4 +1,5 @@
 ---
+# grafana installation
   - name: Updating remote system
     apt:
       update_cache: yes
@@ -22,3 +23,45 @@
       name: grafana-server
       enabled: yes
       state: started
+
+# grafana configuration    
+  - name: create /etc/grafana/provisioning/datasources/
+    become: true
+    file:
+      state: directory
+      path: /etc/grafana/provisioning/datasources/
+      recurse: true
+      owner: "grafana"
+      group: "grafana"
+      mode: 0755
+
+  - name: copy the server binary to /etc/grafana/provisioning/datasources/
+    become: true
+    copy:
+      src: "grafana-prometheus-datasource.yml"
+      dest: "/etc/grafana/provisioning/datasources/grafana-prometheus-datasource.yml"
+      mode: 0664
+      owner: "grafana"
+      group: "grafana"
+
+  - name: create /var/lib/grafana/dashboards/
+    become: true
+    file:
+      state: directory
+      path: /var/lib/grafana/dashboards/
+      recurse: true
+      owner: "grafana"
+      group: "grafana"
+      mode: 0777
+
+  - name: wait for service up
+    uri:
+      url: "http://127.0.0.1:3000"
+      status_code: 200
+    register: __result
+    until: __result.status == 200
+    retries: 120
+    delay: 1
+
+# add dashboards
+  - include_tasks: dashboards.yml
