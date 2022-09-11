@@ -1,0 +1,72 @@
+---
+- become: false
+  run_once: true
+  block:
+  
+    - name: create /var/lib/grafana/dashboards/ 2
+      become: true
+      file:
+        state: directory
+        path: /var/lib/grafana/dashboards/
+        recurse: true
+        owner: "grafana"
+        group: "grafana"
+        mode: 0777
+
+    - name: download grafana dashboard from grafana.net to local directory
+      become: true
+      command: >
+        curl --fail --compressed 
+        https://grafana.com/api/dashboards/{{ item.dashboard_id }}/revisions/{{ item.revision_id }}/download
+        -o /var/lib/grafana/dashboards/{{ item.dashboard_id }}.json
+      args:
+        creates: "/var/lib/grafana/dashboards/{{ item.dashboard_id }}.json"
+        warn: false
+      register: _download_dashboards
+      until: _download_dashboards is succeeded
+      retries: 1
+      delay: 1
+      with_items: "{{ grafana_dashboards }}"
+      when: grafana_dashboards | length > 0
+      changed_when: false
+      check_mode: false
+      tags:
+        - skip_ansible_lint
+
+    - name: change dashboards file permisions
+      become: true
+      ansible.builtin.file:
+        path: "/var/lib/grafana/dashboards/{{ item.dashboard_id }}.json"
+        owner: "grafana"
+        group: "grafana"
+        mode: "0666"
+      with_items: "{{ grafana_dashboards }}"
+
+    - name: Set the correct data source name in the dashboard
+      become: true
+      replace:
+        dest: "/var/lib/grafana/dashboards/{{ item.dashboard_id }}.json"
+        regexp: '"(?:\${)?DS_[A-Z0-9_-]+(?:})?"'
+        replace: '"{{ item.datasource }}"'
+      changed_when: false
+      with_items: "{{ grafana_dashboards }}"
+      when: grafana_dashboards | length > 0
+
+    - name: Create/Update dashboards file (provisioning)
+      become: true
+      copy:
+        dest: "/etc/grafana/provisioning/dashboards/ansible.yml"
+        content: |
+          apiVersion: 1
+          providers:
+           - name: 'default'
+             orgId: 1
+             folder: ''
+             type: file
+             options:
+               path: "/var/lib/grafana/dashboards"
+        backup: false
+        owner: grafana
+        group: grafana
+        mode: 0666
+      notify: restart grafana
