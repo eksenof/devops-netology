@@ -1,0 +1,1510 @@
+intern@intern-ThinkPad-L460:~/DevOps/diploma/terraform$ sudo terraform apply --auto-approve
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.inventory will be created
+  + resource "local_file" "inventory" {
+      + content              = <<-EOT
+            
+            
+            [nle]
+            eksen.space ansible_host=62.84.116.169 email=evgeniia.ksenofontova@iba-group.com domain=eksen.space
+            
+            [db01]
+            db01.eksen.space ansible_host=192.168.1.10 domain=eksen.space mysql_server_id=1 mysql_replication_role=master
+                
+            [db02]
+            db02.eksen.space ansible_host=192.168.1.11 domain=eksen.space mysql_server_id=2 mysql_replication_role=slave
+                
+            [wordpress]
+            app.eksen.space ansible_host=192.168.1.12 domain=eksen.space 
+                
+            [gitlab]
+            gitlab.eksen.space ansible_host=192.168.1.13 domain=eksen.space gitlab_external_url=http://gitlab.eksen.space/
+            
+            [runner]
+            runner.eksen.space ansible_host=192.168.1.14 domain=eksen.space
+            
+            [monitoring]
+            monitoring.eksen.space ansible_host=192.168.1.15 domain=eksen.space
+             
+            
+        EOT
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "../ansible/inventory.yml"
+      + id                   = (known after apply)
+    }
+
+  # null_resource.gitlab will be created
+  + resource "null_resource" "gitlab" {
+      + id = (known after apply)
+    }
+
+  # null_resource.monitoring will be created
+  + resource "null_resource" "monitoring" {
+      + id = (known after apply)
+    }
+
+  # null_resource.mySQL will be created
+  + resource "null_resource" "mySQL" {
+      + id = (known after apply)
+    }
+
+  # null_resource.nle will be created
+  + resource "null_resource" "nle" {
+      + id = (known after apply)
+    }
+
+  # null_resource.node_ex will be created
+  + resource "null_resource" "node_ex" {
+      + id = (known after apply)
+    }
+
+  # null_resource.proxy will be created
+  + resource "null_resource" "proxy" {
+      + id = (known after apply)
+    }
+
+  # null_resource.runner will be created
+  + resource "null_resource" "runner" {
+      + id = (known after apply)
+    }
+
+  # null_resource.wait will be created
+  + resource "null_resource" "wait" {
+      + id = (known after apply)
+    }
+
+  # null_resource.wordpress will be created
+  + resource "null_resource" "wordpress" {
+      + id = (known after apply)
+    }
+
+  # yandex_compute_instance.app will be created
+  + resource "yandex_compute_instance" "app" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "app.eksen.space"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                users:
+                  - name: root
+                    shell: /bin/bash
+                    ssh-authorized-keys:
+                      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZj6SEHm6x7G52hGt/05cSBCfB2BumRBxx2m5uSqw9pofK0c7R8W01Xt9RCWKtOkVjX5XhBH+Amm1uaAizuByZsWg891JzmgniIBscqt4rmGyAYQrNAp6Gn62nnT/vVtaroe1d1TkoIecLghUVtIscrtg5vi8LQHLEIQRlfSIeUPG1+8WVE39Trum4I8LAj/8rN9n5b6DFiD69OtVL0YTarLicWMXBLXlvKB7D/291yKOT8keSigq9bLVSFM6a7Xps4G2+cZetxiPvVja9aoYV6Kyf5+ZgZUl1eJSgvAGyRgzdFhqUDOmpSLttWlRIugP161f/JCFlsyOa18eWj/jz root@intern-ThinkPad-L460
+            EOT
+        }
+      + name                      = "app"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8ofg98ci78v262j491"
+              + name        = "disk12"
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = "192.168.1.12"
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = false
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + host_affinity_rules = (known after apply)
+          + placement_group_id  = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 4
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_compute_instance.db01 will be created
+  + resource "yandex_compute_instance" "db01" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "db01.eksen.space"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                users:
+                  - name: root
+                    shell: /bin/bash
+                    ssh-authorized-keys:
+                      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZj6SEHm6x7G52hGt/05cSBCfB2BumRBxx2m5uSqw9pofK0c7R8W01Xt9RCWKtOkVjX5XhBH+Amm1uaAizuByZsWg891JzmgniIBscqt4rmGyAYQrNAp6Gn62nnT/vVtaroe1d1TkoIecLghUVtIscrtg5vi8LQHLEIQRlfSIeUPG1+8WVE39Trum4I8LAj/8rN9n5b6DFiD69OtVL0YTarLicWMXBLXlvKB7D/291yKOT8keSigq9bLVSFM6a7Xps4G2+cZetxiPvVja9aoYV6Kyf5+ZgZUl1eJSgvAGyRgzdFhqUDOmpSLttWlRIugP161f/JCFlsyOa18eWj/jz root@intern-ThinkPad-L460
+            EOT
+        }
+      + name                      = "db01"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8ofg98ci78v262j491"
+              + name        = "disk10"
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = "192.168.1.10"
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = false
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + host_affinity_rules = (known after apply)
+          + placement_group_id  = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 4
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_compute_instance.db02 will be created
+  + resource "yandex_compute_instance" "db02" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "db02.eksen.space"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                users:
+                  - name: root
+                    shell: /bin/bash
+                    ssh-authorized-keys:
+                      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZj6SEHm6x7G52hGt/05cSBCfB2BumRBxx2m5uSqw9pofK0c7R8W01Xt9RCWKtOkVjX5XhBH+Amm1uaAizuByZsWg891JzmgniIBscqt4rmGyAYQrNAp6Gn62nnT/vVtaroe1d1TkoIecLghUVtIscrtg5vi8LQHLEIQRlfSIeUPG1+8WVE39Trum4I8LAj/8rN9n5b6DFiD69OtVL0YTarLicWMXBLXlvKB7D/291yKOT8keSigq9bLVSFM6a7Xps4G2+cZetxiPvVja9aoYV6Kyf5+ZgZUl1eJSgvAGyRgzdFhqUDOmpSLttWlRIugP161f/JCFlsyOa18eWj/jz root@intern-ThinkPad-L460
+            EOT
+        }
+      + name                      = "db02"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8ofg98ci78v262j491"
+              + name        = "disk11"
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = "192.168.1.11"
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = false
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + host_affinity_rules = (known after apply)
+          + placement_group_id  = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 4
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_compute_instance.gitlab will be created
+  + resource "yandex_compute_instance" "gitlab" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "gitlab.eksen.space"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                users:
+                  - name: root
+                    shell: /bin/bash
+                    ssh-authorized-keys:
+                      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZj6SEHm6x7G52hGt/05cSBCfB2BumRBxx2m5uSqw9pofK0c7R8W01Xt9RCWKtOkVjX5XhBH+Amm1uaAizuByZsWg891JzmgniIBscqt4rmGyAYQrNAp6Gn62nnT/vVtaroe1d1TkoIecLghUVtIscrtg5vi8LQHLEIQRlfSIeUPG1+8WVE39Trum4I8LAj/8rN9n5b6DFiD69OtVL0YTarLicWMXBLXlvKB7D/291yKOT8keSigq9bLVSFM6a7Xps4G2+cZetxiPvVja9aoYV6Kyf5+ZgZUl1eJSgvAGyRgzdFhqUDOmpSLttWlRIugP161f/JCFlsyOa18eWj/jz root@intern-ThinkPad-L460
+            EOT
+        }
+      + name                      = "gitlab"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8ofg98ci78v262j491"
+              + name        = "disk13"
+              + size        = 10
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = "192.168.1.13"
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = false
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + host_affinity_rules = (known after apply)
+          + placement_group_id  = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 4
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_compute_instance.monitoring will be created
+  + resource "yandex_compute_instance" "monitoring" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "monitoring.eksen.space"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                users:
+                  - name: root
+                    shell: /bin/bash
+                    ssh-authorized-keys:
+                      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZj6SEHm6x7G52hGt/05cSBCfB2BumRBxx2m5uSqw9pofK0c7R8W01Xt9RCWKtOkVjX5XhBH+Amm1uaAizuByZsWg891JzmgniIBscqt4rmGyAYQrNAp6Gn62nnT/vVtaroe1d1TkoIecLghUVtIscrtg5vi8LQHLEIQRlfSIeUPG1+8WVE39Trum4I8LAj/8rN9n5b6DFiD69OtVL0YTarLicWMXBLXlvKB7D/291yKOT8keSigq9bLVSFM6a7Xps4G2+cZetxiPvVja9aoYV6Kyf5+ZgZUl1eJSgvAGyRgzdFhqUDOmpSLttWlRIugP161f/JCFlsyOa18eWj/jz root@intern-ThinkPad-L460
+            EOT
+        }
+      + name                      = "monitoring"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8ofg98ci78v262j491"
+              + name        = "disk15"
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = "192.168.1.15"
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = false
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + host_affinity_rules = (known after apply)
+          + placement_group_id  = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 4
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_compute_instance.nle will be created
+  + resource "yandex_compute_instance" "nle" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "nle.eksen.space"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                users:
+                  - name: root
+                    shell: /bin/bash
+                    ssh-authorized-keys:
+                      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZj6SEHm6x7G52hGt/05cSBCfB2BumRBxx2m5uSqw9pofK0c7R8W01Xt9RCWKtOkVjX5XhBH+Amm1uaAizuByZsWg891JzmgniIBscqt4rmGyAYQrNAp6Gn62nnT/vVtaroe1d1TkoIecLghUVtIscrtg5vi8LQHLEIQRlfSIeUPG1+8WVE39Trum4I8LAj/8rN9n5b6DFiD69OtVL0YTarLicWMXBLXlvKB7D/291yKOT8keSigq9bLVSFM6a7Xps4G2+cZetxiPvVja9aoYV6Kyf5+ZgZUl1eJSgvAGyRgzdFhqUDOmpSLttWlRIugP161f/JCFlsyOa18eWj/jz root@intern-ThinkPad-L460
+            EOT
+        }
+      + name                      = "nle"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8ofg98ci78v262j491"
+              + name        = "disk9"
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = "192.168.1.9"
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = "62.84.116.169"
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + host_affinity_rules = (known after apply)
+          + placement_group_id  = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 2
+          + memory        = 2
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_compute_instance.runner will be created
+  + resource "yandex_compute_instance" "runner" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "runner.eksen.space"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                users:
+                  - name: root
+                    shell: /bin/bash
+                    ssh-authorized-keys:
+                      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZj6SEHm6x7G52hGt/05cSBCfB2BumRBxx2m5uSqw9pofK0c7R8W01Xt9RCWKtOkVjX5XhBH+Amm1uaAizuByZsWg891JzmgniIBscqt4rmGyAYQrNAp6Gn62nnT/vVtaroe1d1TkoIecLghUVtIscrtg5vi8LQHLEIQRlfSIeUPG1+8WVE39Trum4I8LAj/8rN9n5b6DFiD69OtVL0YTarLicWMXBLXlvKB7D/291yKOT8keSigq9bLVSFM6a7Xps4G2+cZetxiPvVja9aoYV6Kyf5+ZgZUl1eJSgvAGyRgzdFhqUDOmpSLttWlRIugP161f/JCFlsyOa18eWj/jz root@intern-ThinkPad-L460
+            EOT
+        }
+      + name                      = "vms4"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8ofg98ci78v262j491"
+              + name        = "disk14"
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = "192.168.1.14"
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = false
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + host_affinity_rules = (known after apply)
+          + placement_group_id  = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 4
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_dns_recordset.rs10 will be created
+  + resource "yandex_dns_recordset" "rs10" {
+      + data    = [
+          + "62.84.116.169",
+        ]
+      + id      = (known after apply)
+      + name    = "www.eksen.space."
+      + ttl     = 90
+      + type    = "A"
+      + zone_id = (known after apply)
+    }
+
+  # yandex_dns_recordset.rs11 will be created
+  + resource "yandex_dns_recordset" "rs11" {
+      + data    = [
+          + "62.84.116.169",
+        ]
+      + id      = (known after apply)
+      + name    = "gitlab.eksen.space."
+      + ttl     = 90
+      + type    = "A"
+      + zone_id = (known after apply)
+    }
+
+  # yandex_dns_recordset.rs12 will be created
+  + resource "yandex_dns_recordset" "rs12" {
+      + data    = [
+          + "62.84.116.169",
+        ]
+      + id      = (known after apply)
+      + name    = "grafana.eksen.space."
+      + ttl     = 90
+      + type    = "A"
+      + zone_id = (known after apply)
+    }
+
+  # yandex_dns_recordset.rs13 will be created
+  + resource "yandex_dns_recordset" "rs13" {
+      + data    = [
+          + "62.84.116.169",
+        ]
+      + id      = (known after apply)
+      + name    = "prometheus.eksen.space."
+      + ttl     = 90
+      + type    = "A"
+      + zone_id = (known after apply)
+    }
+
+  # yandex_dns_recordset.rs14 will be created
+  + resource "yandex_dns_recordset" "rs14" {
+      + data    = [
+          + "62.84.116.169",
+        ]
+      + id      = (known after apply)
+      + name    = "alertmanager.eksen.space."
+      + ttl     = 90
+      + type    = "A"
+      + zone_id = (known after apply)
+    }
+
+  # yandex_dns_recordset.rs9 will be created
+  + resource "yandex_dns_recordset" "rs9" {
+      + data    = [
+          + "62.84.116.169",
+        ]
+      + id      = (known after apply)
+      + name    = "@"
+      + ttl     = 90
+      + type    = "A"
+      + zone_id = (known after apply)
+    }
+
+  # yandex_dns_zone.eksen will be created
+  + resource "yandex_dns_zone" "eksen" {
+      + created_at       = (known after apply)
+      + folder_id        = (known after apply)
+      + id               = (known after apply)
+      + name             = "eksen"
+      + private_networks = (known after apply)
+      + public           = true
+      + zone             = "eksen.space."
+    }
+
+  # yandex_vpc_network.net will be created
+  + resource "yandex_vpc_network" "net" {
+      + created_at                = (known after apply)
+      + default_security_group_id = (known after apply)
+      + folder_id                 = (known after apply)
+      + id                        = (known after apply)
+      + labels                    = (known after apply)
+      + name                      = "net"
+      + subnet_ids                = (known after apply)
+    }
+
+  # yandex_vpc_subnet.subnet1 will be created
+  + resource "yandex_vpc_subnet" "subnet1" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = "subnet1"
+      + network_id     = (known after apply)
+      + v4_cidr_blocks = [
+          + "192.168.1.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-a"
+    }
+
+Plan: 26 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + external_ip_address  = "62.84.116.169"
+  + external_ip_address0 = (known after apply)
+  + external_ip_address1 = (known after apply)
+  + external_ip_address2 = (known after apply)
+  + external_ip_address3 = (known after apply)
+  + external_ip_address4 = (known after apply)
+  + external_ip_address5 = (known after apply)
+  + internal_ip_address  = "192.168.1.9"
+  + internal_ip_address0 = "192.168.1.10"
+  + internal_ip_address1 = "192.168.1.11"
+  + internal_ip_address2 = "192.168.1.12"
+  + internal_ip_address3 = "192.168.1.13"
+  + internal_ip_address4 = "192.168.1.14"
+  + internal_ip_address5 = "192.168.1.15"
+yandex_dns_zone.eksen: Creating...
+yandex_vpc_network.net: Creating...
+yandex_dns_zone.eksen: Creation complete after 1s [id=dns91ku4ero4srj1hc8k]
+yandex_dns_recordset.rs13: Creating...
+yandex_dns_recordset.rs14: Creating...
+yandex_dns_recordset.rs12: Creating...
+yandex_dns_recordset.rs9: Creating...
+yandex_dns_recordset.rs10: Creating...
+yandex_dns_recordset.rs11: Creating...
+yandex_vpc_network.net: Creation complete after 1s [id=enpf3fn1vbhhit9kv30r]
+yandex_vpc_subnet.subnet1: Creating...
+yandex_dns_recordset.rs10: Creation complete after 0s [id=dns91ku4ero4srj1hc8k/www.eksen.space./A]
+yandex_dns_recordset.rs13: Creation complete after 1s [id=dns91ku4ero4srj1hc8k/prometheus.eksen.space./A]
+yandex_dns_recordset.rs9: Creation complete after 1s [id=dns91ku4ero4srj1hc8k/@/A]
+yandex_dns_recordset.rs14: Creation complete after 1s [id=dns91ku4ero4srj1hc8k/alertmanager.eksen.space./A]
+yandex_vpc_subnet.subnet1: Creation complete after 1s [id=e9bbaci6drfp58154dd6]
+yandex_compute_instance.nle: Creating...
+yandex_compute_instance.monitoring: Creating...
+yandex_compute_instance.app: Creating...
+yandex_compute_instance.gitlab: Creating...
+yandex_compute_instance.db01: Creating...
+yandex_compute_instance.db02: Creating...
+yandex_compute_instance.runner: Creating...
+yandex_dns_recordset.rs11: Creation complete after 1s [id=dns91ku4ero4srj1hc8k/gitlab.eksen.space./A]
+yandex_dns_recordset.rs12: Creation complete after 2s [id=dns91ku4ero4srj1hc8k/grafana.eksen.space./A]
+yandex_compute_instance.nle: Still creating... [10s elapsed]
+yandex_compute_instance.monitoring: Still creating... [10s elapsed]
+yandex_compute_instance.app: Still creating... [10s elapsed]
+yandex_compute_instance.gitlab: Still creating... [10s elapsed]
+yandex_compute_instance.db02: Still creating... [10s elapsed]
+yandex_compute_instance.db01: Still creating... [10s elapsed]
+yandex_compute_instance.runner: Still creating... [10s elapsed]
+yandex_compute_instance.nle: Still creating... [20s elapsed]
+yandex_compute_instance.monitoring: Still creating... [20s elapsed]
+yandex_compute_instance.app: Still creating... [20s elapsed]
+yandex_compute_instance.gitlab: Still creating... [20s elapsed]
+yandex_compute_instance.db01: Still creating... [20s elapsed]
+yandex_compute_instance.db02: Still creating... [20s elapsed]
+yandex_compute_instance.runner: Still creating... [20s elapsed]
+yandex_compute_instance.runner: Creation complete after 27s [id=fhmebst5njil6tikvjb5]
+yandex_compute_instance.nle: Creation complete after 27s [id=fhmjuj8l3v20dulb51mo]
+yandex_compute_instance.db01: Creation complete after 28s [id=fhm00ardg67kim85l2f0]
+yandex_compute_instance.db02: Creation complete after 28s [id=fhmbdtnsbhmv71g12cr1]
+yandex_compute_instance.monitoring: Still creating... [30s elapsed]
+yandex_compute_instance.app: Still creating... [30s elapsed]
+yandex_compute_instance.gitlab: Still creating... [30s elapsed]
+yandex_compute_instance.gitlab: Creation complete after 31s [id=fhmena1jd77qvbsrkv9s]
+yandex_compute_instance.monitoring: Creation complete after 31s [id=fhmg0jmum144tq7a7doa]
+yandex_compute_instance.app: Creation complete after 35s [id=fhmv2gi6js9nhhnojhvp]
+local_file.inventory: Creating...
+local_file.inventory: Creation complete after 0s [id=cc87b8adcad7d667904c864ff45190a6244c15bf]
+null_resource.wait: Creating...
+null_resource.wait: Provisioning with 'local-exec'...
+null_resource.wait (local-exec): Executing: ["/bin/sh" "-c" "sleep 30"]
+null_resource.wait: Still creating... [10s elapsed]
+null_resource.wait: Still creating... [20s elapsed]
+null_resource.wait: Still creating... [30s elapsed]
+null_resource.wait: Creation complete after 30s [id=8050088725525093134]
+null_resource.nle: Creating...
+null_resource.nle: Provisioning with 'local-exec'...
+null_resource.nle (local-exec): Executing: ["/bin/sh" "-c" "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../ansible/inventory.yml ../ansible/nle/nle.yml"]
+
+null_resource.nle (local-exec): PLAY [Installation Nginx and LetsEncrypt] **************************************
+
+null_resource.nle (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.nle (local-exec): ok: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Add hosts in hosts file] *******************************************
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Update remote system] **********************************************
+null_resource.nle: Still creating... [10s elapsed]
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Install nginx, squid, letsencrypt] *********************************
+null_resource.nle: Still creating... [20s elapsed]
+null_resource.nle: Still creating... [30s elapsed]
+null_resource.nle: Still creating... [40s elapsed]
+null_resource.nle: Still creating... [50s elapsed]
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Create letsencrypt directory] **************************************
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Remove default nginx config] ***************************************
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Install nginx http] ************************************************
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Install nginx config] **********************************************
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Reload nginx] ******************************************************
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Prepere letsencrypt - create certificate] **************************
+null_resource.nle: Still creating... [1m0s elapsed]
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Install nginx config] **********************************************
+null_resource.nle: Still creating... [1m10s elapsed]
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Configure squid 'allow localnet'] **********************************
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Configure squid ip:port] *******************************************
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Reload nginx] ******************************************************
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): TASK [nle : Reload squid] ******************************************************
+null_resource.nle: Still creating... [1m20s elapsed]
+null_resource.nle: Still creating... [1m30s elapsed]
+null_resource.nle: Still creating... [1m40s elapsed]
+null_resource.nle (local-exec): changed: [eksen.space]
+
+null_resource.nle (local-exec): PLAY RECAP *********************************************************************
+null_resource.nle (local-exec): eksen.space                : ok=15   changed=14   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.nle: Creation complete after 1m47s [id=7283933510977735499]
+null_resource.proxy: Creating...
+null_resource.proxy: Provisioning with 'local-exec'...
+null_resource.proxy (local-exec): Executing: ["/bin/sh" "-c" "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../ansible/inventory.yml ../ansible/proxy/proxy.yml"]
+
+null_resource.proxy (local-exec): PLAY [Install proxy for APT] ***************************************************
+
+null_resource.proxy (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.proxy (local-exec): ok: [db02.eksen.space]
+null_resource.proxy (local-exec): ok: [app.eksen.space]
+null_resource.proxy (local-exec): ok: [gitlab.eksen.space]
+null_resource.proxy (local-exec): ok: [db01.eksen.space]
+null_resource.proxy (local-exec): ok: [runner.eksen.space]
+null_resource.proxy (local-exec): ok: [monitoring.eksen.space]
+
+null_resource.proxy (local-exec): TASK [Configure APT proxy] *****************************************************
+null_resource.proxy: Still creating... [10s elapsed]
+null_resource.proxy (local-exec): changed: [app.eksen.space]
+null_resource.proxy (local-exec): changed: [db02.eksen.space]
+null_resource.proxy (local-exec): changed: [runner.eksen.space]
+null_resource.proxy (local-exec): changed: [db01.eksen.space]
+null_resource.proxy (local-exec): changed: [gitlab.eksen.space]
+null_resource.proxy (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.proxy (local-exec): TASK [Add hosts in hosts file] *************************************************
+null_resource.proxy (local-exec): changed: [runner.eksen.space]
+null_resource.proxy (local-exec): changed: [db01.eksen.space]
+null_resource.proxy (local-exec): changed: [app.eksen.space]
+null_resource.proxy (local-exec): changed: [gitlab.eksen.space]
+null_resource.proxy (local-exec): changed: [db02.eksen.space]
+null_resource.proxy (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.proxy (local-exec): PLAY RECAP *********************************************************************
+null_resource.proxy (local-exec): app.eksen.space            : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.proxy (local-exec): db01.eksen.space           : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.proxy (local-exec): db02.eksen.space           : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.proxy (local-exec): gitlab.eksen.space         : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.proxy (local-exec): monitoring.eksen.space     : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.proxy (local-exec): runner.eksen.space         : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.proxy: Creation complete after 17s [id=8410390494927741587]
+null_resource.mySQL: Creating...
+null_resource.mySQL: Provisioning with 'local-exec'...
+null_resource.mySQL (local-exec): Executing: ["/bin/sh" "-c" "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../ansible/inventory.yml ../ansible/mySQL/mySQL.yml"]
+
+null_resource.mySQL (local-exec): PLAY [Installation mysql-server] ***********************************************
+
+null_resource.mySQL (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.mySQL (local-exec): ok: [db02.eksen.space]
+null_resource.mySQL (local-exec): ok: [db01.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [mySQL : Update remote system] ********************************************
+null_resource.mySQL: Still creating... [10s elapsed]
+null_resource.mySQL: Still creating... [20s elapsed]
+null_resource.mySQL: Still creating... [30s elapsed]
+null_resource.mySQL: Still creating... [40s elapsed]
+null_resource.mySQL (local-exec): changed: [db01.eksen.space]
+null_resource.mySQL: Still creating... [50s elapsed]
+null_resource.mySQL: Still creating... [1m0s elapsed]
+null_resource.mySQL: Still creating... [1m10s elapsed]
+null_resource.mySQL: Still creating... [1m20s elapsed]
+null_resource.mySQL: Still creating... [1m30s elapsed]
+null_resource.mySQL: Still creating... [1m40s elapsed]
+null_resource.mySQL (local-exec): changed: [db02.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [mySQL : Install mysqldb python library] **********************************
+null_resource.mySQL (local-exec): changed: [db01.eksen.space]
+null_resource.mySQL (local-exec): changed: [db02.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [mySQL : Install mysql-server] ********************************************
+null_resource.mySQL: Still creating... [1m50s elapsed]
+null_resource.mySQL: Still creating... [2m0s elapsed]
+null_resource.mySQL: Still creating... [2m10s elapsed]
+null_resource.mySQL: Still creating... [2m20s elapsed]
+null_resource.mySQL: Still creating... [2m30s elapsed]
+null_resource.mySQL: Still creating... [2m40s elapsed]
+null_resource.mySQL: Still creating... [2m50s elapsed]
+null_resource.mySQL: Still creating... [3m0s elapsed]
+null_resource.mySQL (local-exec): changed: [db02.eksen.space]
+null_resource.mySQL: Still creating... [3m10s elapsed]
+null_resource.mySQL (local-exec): changed: [db01.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [mySQL : Reload mysql] ****************************************************
+null_resource.mySQL: Still creating... [3m20s elapsed]
+null_resource.mySQL (local-exec): changed: [db01.eksen.space]
+null_resource.mySQL (local-exec): changed: [db02.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [mySQL : Setup user] ******************************************************
+null_resource.mySQL (local-exec): changed: [db01.eksen.space]
+null_resource.mySQL (local-exec): changed: [db02.eksen.space]
+
+null_resource.mySQL (local-exec): PLAY [Setup master] ************************************************************
+
+null_resource.mySQL (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.mySQL (local-exec): ok: [db01.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [master : Create a new database] ******************************************
+null_resource.mySQL (local-exec): changed: [db01.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [master : Setup mysql master config] **************************************
+null_resource.mySQL: Still creating... [3m30s elapsed]
+null_resource.mySQL (local-exec): changed: [db01.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [master : Reload mysql] ***************************************************
+null_resource.mySQL (local-exec): changed: [db01.eksen.space]
+
+null_resource.mySQL (local-exec): PLAY [Setup slave] *************************************************************
+
+null_resource.mySQL (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.mySQL (local-exec): ok: [db02.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [slave : Create a new database] *******************************************
+null_resource.mySQL (local-exec): changed: [db02.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [slave : Setup mysql-server slave config] *********************************
+null_resource.mySQL (local-exec): changed: [db02.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [slave : Configure replication on the slave] ******************************
+null_resource.mySQL: Still creating... [3m40s elapsed]
+null_resource.mySQL (local-exec): changed: [db02.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [slave : Reload mysql] ****************************************************
+null_resource.mySQL (local-exec): changed: [db02.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [slave : Reset replica] ***************************************************
+null_resource.mySQL (local-exec): changed: [db02.eksen.space]
+
+null_resource.mySQL (local-exec): TASK [slave : Start replica] ***************************************************
+null_resource.mySQL (local-exec): changed: [db02.eksen.space]
+
+null_resource.mySQL (local-exec): PLAY RECAP *********************************************************************
+null_resource.mySQL (local-exec): db01.eksen.space           : ok=10   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.mySQL (local-exec): db02.eksen.space           : ok=13   changed=11   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.mySQL: Creation complete after 3m47s [id=928259536883859451]
+null_resource.wordpress: Creating...
+null_resource.wordpress: Provisioning with 'local-exec'...
+null_resource.wordpress (local-exec): Executing: ["/bin/sh" "-c" "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../ansible/inventory.yml ../ansible/wordpress/wordpress.yml"]
+
+null_resource.wordpress (local-exec): PLAY [Installation nginx and wordpress] ****************************************
+
+null_resource.wordpress (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.wordpress (local-exec): ok: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Update remote system] ****************************************
+null_resource.wordpress: Still creating... [10s elapsed]
+null_resource.wordpress: Still creating... [20s elapsed]
+null_resource.wordpress: Still creating... [30s elapsed]
+null_resource.wordpress: Still creating... [40s elapsed]
+null_resource.wordpress: Still creating... [50s elapsed]
+null_resource.wordpress: Still creating... [1m0s elapsed]
+null_resource.wordpress: Still creating... [1m10s elapsed]
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Install nginx] ***********************************************
+null_resource.wordpress: Still creating... [1m20s elapsed]
+null_resource.wordpress: Still creating... [1m30s elapsed]
+null_resource.wordpress: Still creating... [1m40s elapsed]
+null_resource.wordpress: Still creating... [1m50s elapsed]
+null_resource.wordpress: Still creating... [2m0s elapsed]
+null_resource.wordpress: Still creating... [2m10s elapsed]
+null_resource.wordpress: Still creating... [2m20s elapsed]
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Disable default site] ****************************************
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Install nginx configuration] *********************************
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Activate site configuration] *********************************
+null_resource.wordpress: Still creating... [2m30s elapsed]
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Reload nginx] ************************************************
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Install PHP] *************************************************
+null_resource.wordpress: Still creating... [2m40s elapsed]
+null_resource.wordpress: Still creating... [2m50s elapsed]
+null_resource.wordpress: Still creating... [3m0s elapsed]
+null_resource.wordpress: Still creating... [3m10s elapsed]
+null_resource.wordpress: Still creating... [3m20s elapsed]
+null_resource.wordpress: Still creating... [3m30s elapsed]
+null_resource.wordpress: Still creating... [3m40s elapsed]
+null_resource.wordpress: Still creating... [3m50s elapsed]
+null_resource.wordpress: Still creating... [4m0s elapsed]
+null_resource.wordpress: Still creating... [4m10s elapsed]
+null_resource.wordpress: Still creating... [4m20s elapsed]
+null_resource.wordpress: Still creating... [4m30s elapsed]
+null_resource.wordpress: Still creating... [4m40s elapsed]
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Downloading WordPress] ***************************************
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Extract WordPress] *******************************************
+null_resource.wordpress: Still creating... [4m50s elapsed]
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Set ownership] ***********************************************
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Install wp configuration] ************************************
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Add the user for gitlab runner] ******************************
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Add runner user to sudoers] **********************************
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Allow gitlab_runner user to have passwordless sudo] **********
+null_resource.wordpress: Still creating... [5m0s elapsed]
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Create directory for runner authorized_keys] *****************
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Copy authorized_keys file] ***********************************
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Create directory for project files] **************************
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): TASK [wordpress : Set ownership on project folder] *****************************
+null_resource.wordpress (local-exec): changed: [app.eksen.space]
+
+null_resource.wordpress (local-exec): PLAY RECAP *********************************************************************
+null_resource.wordpress (local-exec): app.eksen.space            : ok=19   changed=18   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.wordpress: Creation complete after 5m8s [id=9008835959544006065]
+null_resource.gitlab: Creating...
+null_resource.gitlab: Provisioning with 'local-exec'...
+null_resource.gitlab (local-exec): Executing: ["/bin/sh" "-c" "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../ansible/inventory.yml ../ansible/gitlab/gitlab.yml"]
+
+null_resource.gitlab (local-exec): PLAY [Installation gitlab] *****************************************************
+
+null_resource.gitlab (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.gitlab (local-exec): ok: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): TASK [gitlab : update] *********************************************************
+null_resource.gitlab: Still creating... [10s elapsed]
+null_resource.gitlab: Still creating... [20s elapsed]
+null_resource.gitlab (local-exec): changed: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): TASK [gitlab : Include OS-specific variables.] *********************************
+null_resource.gitlab (local-exec): ok: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): TASK [gitlab : Check if GitLab configuration file already exists.] *************
+null_resource.gitlab (local-exec): ok: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): TASK [gitlab : Check if GitLab is already installed.] **************************
+null_resource.gitlab (local-exec): ok: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): TASK [gitlab : Install GitLab dependencies.] ***********************************
+null_resource.gitlab: Still creating... [30s elapsed]
+null_resource.gitlab: Still creating... [40s elapsed]
+null_resource.gitlab (local-exec): changed: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): TASK [gitlab : Updating remote system] *****************************************
+null_resource.gitlab: Still creating... [50s elapsed]
+null_resource.gitlab: Still creating... [1m0s elapsed]
+null_resource.gitlab: Still creating... [1m10s elapsed]
+null_resource.gitlab (local-exec): ok: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): TASK [gitlab : Install GitLab dependencies (Debian).] **************************
+null_resource.gitlab: Still creating... [1m20s elapsed]
+null_resource.gitlab (local-exec): changed: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): TASK [gitlab : Gitlab - Get package] *******************************************
+null_resource.gitlab: Still creating... [1m30s elapsed]
+null_resource.gitlab: Still creating... [1m40s elapsed]
+null_resource.gitlab: Still creating... [1m50s elapsed]
+null_resource.gitlab: Still creating... [2m0s elapsed]
+null_resource.gitlab (local-exec): changed: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): TASK [gitlab : Gitlab - Install a .deb package] ********************************
+null_resource.gitlab: Still creating... [2m10s elapsed]
+null_resource.gitlab: Still creating... [2m20s elapsed]
+null_resource.gitlab: Still creating... [2m30s elapsed]
+null_resource.gitlab: Still creating... [2m40s elapsed]
+null_resource.gitlab: Still creating... [2m50s elapsed]
+null_resource.gitlab: Still creating... [3m0s elapsed]
+null_resource.gitlab: Still creating... [3m10s elapsed]
+null_resource.gitlab: Still creating... [3m20s elapsed]
+null_resource.gitlab: Still creating... [3m30s elapsed]
+null_resource.gitlab: Still creating... [3m40s elapsed]
+null_resource.gitlab: Still creating... [3m50s elapsed]
+null_resource.gitlab: Still creating... [4m0s elapsed]
+null_resource.gitlab (local-exec): changed: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): TASK [gitlab : Reconfigure GitLab (first run).] ********************************
+null_resource.gitlab: Still creating... [4m10s elapsed]
+null_resource.gitlab: Still creating... [4m20s elapsed]
+null_resource.gitlab: Still creating... [4m30s elapsed]
+null_resource.gitlab: Still creating... [4m40s elapsed]
+null_resource.gitlab: Still creating... [4m50s elapsed]
+null_resource.gitlab: Still creating... [5m0s elapsed]
+null_resource.gitlab: Still creating... [5m10s elapsed]
+null_resource.gitlab: Still creating... [5m20s elapsed]
+null_resource.gitlab: Still creating... [5m30s elapsed]
+null_resource.gitlab: Still creating... [5m40s elapsed]
+null_resource.gitlab: Still creating... [5m50s elapsed]
+null_resource.gitlab: Still creating... [6m0s elapsed]
+null_resource.gitlab: Still creating... [6m10s elapsed]
+null_resource.gitlab: Still creating... [6m20s elapsed]
+null_resource.gitlab: Still creating... [6m30s elapsed]
+null_resource.gitlab: Still creating... [6m40s elapsed]
+null_resource.gitlab: Still creating... [6m50s elapsed]
+null_resource.gitlab: Still creating... [7m0s elapsed]
+null_resource.gitlab: Still creating... [7m10s elapsed]
+null_resource.gitlab: Still creating... [7m20s elapsed]
+null_resource.gitlab: Still creating... [7m30s elapsed]
+null_resource.gitlab: Still creating... [7m40s elapsed]
+null_resource.gitlab: Still creating... [7m50s elapsed]
+null_resource.gitlab: Still creating... [8m0s elapsed]
+null_resource.gitlab: Still creating... [8m10s elapsed]
+null_resource.gitlab: Still creating... [8m20s elapsed]
+null_resource.gitlab: Still creating... [8m30s elapsed]
+null_resource.gitlab: Still creating... [8m40s elapsed]
+null_resource.gitlab: Still creating... [8m50s elapsed]
+null_resource.gitlab: Still creating... [9m0s elapsed]
+null_resource.gitlab: Still creating... [9m10s elapsed]
+null_resource.gitlab: Still creating... [9m20s elapsed]
+null_resource.gitlab: Still creating... [9m30s elapsed]
+null_resource.gitlab: Still creating... [9m40s elapsed]
+null_resource.gitlab: Still creating... [9m50s elapsed]
+null_resource.gitlab: Still creating... [10m0s elapsed]
+null_resource.gitlab: Still creating... [10m10s elapsed]
+null_resource.gitlab: Still creating... [10m20s elapsed]
+null_resource.gitlab: Still creating... [10m30s elapsed]
+null_resource.gitlab: Still creating... [10m40s elapsed]
+null_resource.gitlab: Still creating... [10m50s elapsed]
+null_resource.gitlab (local-exec): changed: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): TASK [gitlab : Copy GitLab configuration file.] ********************************
+null_resource.gitlab (local-exec): changed: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): TASK [gitlab : Gitlab - Configure to listen on 0.0.0.0:9100] *******************
+null_resource.gitlab: Still creating... [11m0s elapsed]
+null_resource.gitlab (local-exec): changed: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): RUNNING HANDLER [gitlab : restart gitlab] **************************************
+null_resource.gitlab: Still creating... [11m10s elapsed]
+null_resource.gitlab: Still creating... [11m20s elapsed]
+null_resource.gitlab: Still creating... [11m30s elapsed]
+null_resource.gitlab: Still creating... [11m40s elapsed]
+null_resource.gitlab: Still creating... [11m50s elapsed]
+null_resource.gitlab: Still creating... [12m0s elapsed]
+null_resource.gitlab: Still creating... [12m10s elapsed]
+null_resource.gitlab (local-exec): changed: [gitlab.eksen.space]
+
+null_resource.gitlab (local-exec): PLAY RECAP *********************************************************************
+null_resource.gitlab (local-exec): gitlab.eksen.space         : ok=14   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.gitlab: Creation complete after 12m13s [id=6530180563591023345]
+null_resource.runner: Creating...
+null_resource.runner: Provisioning with 'local-exec'...
+null_resource.runner (local-exec): Executing: ["/bin/sh" "-c" "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../ansible/inventory.yml ../ansible/runner/runner.yml"]
+
+null_resource.runner (local-exec): PLAY [Runner installation] *****************************************************
+
+null_resource.runner (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.runner (local-exec): ok: [runner.eksen.space]
+
+null_resource.runner (local-exec): TASK [runner : Install git] ****************************************************
+null_resource.runner: Still creating... [10s elapsed]
+null_resource.runner: Still creating... [20s elapsed]
+null_resource.runner: Still creating... [30s elapsed]
+null_resource.runner: Still creating... [40s elapsed]
+null_resource.runner: Still creating... [50s elapsed]
+null_resource.runner: Still creating... [1m0s elapsed]
+null_resource.runner: Still creating... [1m10s elapsed]
+null_resource.runner: Still creating... [1m20s elapsed]
+null_resource.runner: Still creating... [1m30s elapsed]
+null_resource.runner: Still creating... [1m40s elapsed]
+null_resource.runner: Still creating... [1m50s elapsed]
+null_resource.runner: Still creating... [2m0s elapsed]
+null_resource.runner: Still creating... [2m10s elapsed]
+null_resource.runner: Still creating... [2m20s elapsed]
+null_resource.runner: Still creating... [2m30s elapsed]
+null_resource.runner: Still creating... [2m40s elapsed]
+null_resource.runner: Still creating... [2m50s elapsed]
+null_resource.runner (local-exec): changed: [runner.eksen.space]
+
+null_resource.runner (local-exec): TASK [runner : Download the binary for your system] ****************************
+null_resource.runner: Still creating... [3m0s elapsed]
+null_resource.runner (local-exec): changed: [runner.eksen.space]
+
+null_resource.runner (local-exec): TASK [runner : Give it permission to execute] **********************************
+null_resource.runner (local-exec): changed: [runner.eksen.space]
+
+null_resource.runner (local-exec): TASK [runner : Add runner user] ************************************************
+null_resource.runner (local-exec): changed: [runner.eksen.space]
+
+null_resource.runner (local-exec): TASK [runner : Install and run as a service] ***********************************
+null_resource.runner (local-exec): changed: [runner.eksen.space]
+
+null_resource.runner (local-exec): TASK [runner : Start runner] ***************************************************
+null_resource.runner: Still creating... [3m10s elapsed]
+null_resource.runner (local-exec): changed: [runner.eksen.space]
+
+null_resource.runner (local-exec): TASK [runner : Create directory for runner ssh keys] ***************************
+null_resource.runner (local-exec): changed: [runner.eksen.space]
+
+null_resource.runner (local-exec): TASK [runner : Copy id_rsa files] **********************************************
+null_resource.runner (local-exec): changed: [runner.eksen.space] => (item=id_rsa.pub)
+null_resource.runner (local-exec): changed: [runner.eksen.space] => (item=id_rsa)
+null_resource.runner (local-exec): changed: [runner.eksen.space] => (item=known_hosts)
+
+null_resource.runner (local-exec): TASK [runner : Set ownership on known_hosts file] ******************************
+null_resource.runner: Still creating... [3m20s elapsed]
+null_resource.runner (local-exec): changed: [runner.eksen.space]
+
+null_resource.runner (local-exec): TASK [runner : Move .bash_logout] **********************************************
+null_resource.runner (local-exec): changed: [runner.eksen.space]
+
+null_resource.runner (local-exec): PLAY RECAP *********************************************************************
+null_resource.runner (local-exec): runner.eksen.space         : ok=11   changed=10   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.runner: Creation complete after 3m23s [id=8598786378729770359]
+null_resource.monitoring: Creating...
+null_resource.monitoring: Provisioning with 'local-exec'...
+null_resource.monitoring (local-exec): Executing: ["/bin/sh" "-c" "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../ansible/inventory.yml ../ansible/monitoring/monitoring.yml"]
+
+null_resource.monitoring (local-exec): PLAY [Installation monitoring service] *****************************************
+
+null_resource.monitoring (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.monitoring (local-exec): ok: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [prometheus : Updating remote system] *************************************
+null_resource.monitoring: Still creating... [10s elapsed]
+null_resource.monitoring: Still creating... [20s elapsed]
+null_resource.monitoring: Still creating... [30s elapsed]
+null_resource.monitoring: Still creating... [40s elapsed]
+null_resource.monitoring: Still creating... [50s elapsed]
+null_resource.monitoring: Still creating... [1m0s elapsed]
+null_resource.monitoring: Still creating... [1m10s elapsed]
+null_resource.monitoring: Still creating... [1m20s elapsed]
+null_resource.monitoring: Still creating... [1m30s elapsed]
+null_resource.monitoring: Still creating... [1m40s elapsed]
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [prometheus : Creating group] *********************************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [prometheus : Creating service user] **************************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [prometheus : Creating directories for service prometheus] ****************
+null_resource.monitoring: Still creating... [1m50s elapsed]
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=/tmp/prometheus)
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=/etc/prometheus)
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=/var/lib/prometheus)
+
+null_resource.monitoring (local-exec): TASK [prometheus : Downloading source files] ***********************************
+null_resource.monitoring: Still creating... [2m0s elapsed]
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [prometheus : Coping source files] ****************************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=prometheus)
+null_resource.monitoring: Still creating... [2m10s elapsed]
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=promtool)
+
+null_resource.monitoring (local-exec): TASK [prometheus : Coping config files] ****************************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=console_libraries)
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=consoles)
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=prometheus.yml)
+
+null_resource.monitoring (local-exec): TASK [prometheus : Creating systemd service] ***********************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [prometheus : Reloading systemd] ******************************************
+null_resource.monitoring (local-exec): ok: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [prometheus : Coping sw config files] *************************************
+null_resource.monitoring: Still creating... [2m20s elapsed]
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=prometheus.yml)
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=alert.yml)
+
+null_resource.monitoring (local-exec): TASK [prometheus : Starting service] *******************************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [alertmanager : Updating remote system] ***********************************
+null_resource.monitoring: Still creating... [2m30s elapsed]
+null_resource.monitoring: Still creating... [2m40s elapsed]
+null_resource.monitoring: Still creating... [2m50s elapsed]
+null_resource.monitoring (local-exec): ok: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [alertmanager : Creating group] *******************************************
+null_resource.monitoring: Still creating... [3m0s elapsed]
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [alertmanager : Creating service user] ************************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [alertmanager : Creating directories] *************************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=/tmp/alertmanager)
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=/etc/alertmanager)
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=/var/lib/prometheus/alertmanager)
+
+null_resource.monitoring (local-exec): TASK [alertmanager : Downloading source files] *********************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [alertmanager : Coping source files] **************************************
+null_resource.monitoring: Still creating... [3m10s elapsed]
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=alertmanager)
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item=amtool)
+
+null_resource.monitoring (local-exec): TASK [alertmanager : Coping config file] ***************************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [alertmanager : Creating systemd service] *********************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [alertmanager : Reloading systemd] ****************************************
+null_resource.monitoring (local-exec): ok: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [alertmanager : Starting service] *****************************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [grafana : Updating remote system] ****************************************
+null_resource.monitoring: Still creating... [3m20s elapsed]
+null_resource.monitoring (local-exec): ok: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [grafana : Download grafana package] **************************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [grafana : Update packages] ***********************************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [grafana : Install requirements] ******************************************
+null_resource.monitoring: Still creating... [3m30s elapsed]
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [grafana : Install grafana] ***********************************************
+null_resource.monitoring: Still creating... [3m40s elapsed]
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [grafana : Enable and start grafana service] ******************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [grafana : Create /etc/grafana/provisioning/datasources/] *****************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [grafana : Copy the server binary to /etc/grafana/provisioning/datasources/] ***
+null_resource.monitoring: Still creating... [3m50s elapsed]
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [grafana : Create /var/lib/grafana/dashboards/] ***************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [grafana : Wait for service up] *******************************************
+null_resource.monitoring (local-exec): FAILED - RETRYING: [monitoring.eksen.space]: Wait for service up (120 retries left).
+null_resource.monitoring (local-exec): ok: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [grafana : include_tasks] *************************************************
+null_resource.monitoring (local-exec): included: /home/intern/DevOps/diploma/ansible/monitoring/roles/grafana/tasks/dashboards.yml for monitoring.eksen.space
+
+null_resource.monitoring (local-exec): TASK [grafana : create /var/lib/grafana/dashboards/ 2] *************************
+null_resource.monitoring (local-exec): ok: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): TASK [grafana : download grafana dashboard from grafana.net to local directory] ***
+null_resource.monitoring: Still creating... [4m0s elapsed]
+null_resource.monitoring (local-exec): ok: [monitoring.eksen.space] => (item={'dashboard_id': '1860', 'revision_id': '27', 'datasource': 'Prometheus'})
+null_resource.monitoring (local-exec): ok: [monitoring.eksen.space] => (item={'dashboard_id': '3662', 'revision_id': '2', 'datasource': 'Prometheus'})
+
+null_resource.monitoring (local-exec): TASK [grafana : change dashboards file permisions] *****************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item={'dashboard_id': '1860', 'revision_id': '27', 'datasource': 'Prometheus'})
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space] => (item={'dashboard_id': '3662', 'revision_id': '2', 'datasource': 'Prometheus'})
+
+null_resource.monitoring (local-exec): TASK [grafana : Set the correct data source name in the dashboard] *************
+null_resource.monitoring (local-exec): ok: [monitoring.eksen.space] => (item={'dashboard_id': '1860', 'revision_id': '27', 'datasource': 'Prometheus'})
+null_resource.monitoring (local-exec): ok: [monitoring.eksen.space] => (item={'dashboard_id': '3662', 'revision_id': '2', 'datasource': 'Prometheus'})
+
+null_resource.monitoring (local-exec): TASK [grafana : Create/Update dashboards file (provisioning)] ******************
+null_resource.monitoring: Still creating... [4m10s elapsed]
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): RUNNING HANDLER [grafana : restart grafana] ************************************
+null_resource.monitoring (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.monitoring (local-exec): PLAY RECAP *********************************************************************
+null_resource.monitoring (local-exec): monitoring.eksen.space     : ok=39   changed=29   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.monitoring: Creation complete after 4m14s [id=3358326817629873073]
+null_resource.node_ex: Creating...
+null_resource.node_ex: Provisioning with 'local-exec'...
+null_resource.node_ex (local-exec): Executing: ["/bin/sh" "-c" "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i ../ansible/inventory.yml ../ansible/node_ex/node_ex.yml"]
+
+null_resource.node_ex (local-exec): PLAY [Installation Node Exporten on all hosts] *********************************
+
+null_resource.node_ex (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.node_ex (local-exec): ok: [eksen.space]
+null_resource.node_ex (local-exec): ok: [db01.eksen.space]
+null_resource.node_ex (local-exec): ok: [app.eksen.space]
+null_resource.node_ex (local-exec): ok: [db02.eksen.space]
+null_resource.node_ex (local-exec): ok: [gitlab.eksen.space]
+null_resource.node_ex (local-exec): ok: [monitoring.eksen.space]
+null_resource.node_ex (local-exec): ok: [runner.eksen.space]
+
+null_resource.node_ex (local-exec): TASK [node_ex : Downloading node exporter] *************************************
+null_resource.node_ex (local-exec): changed: [db01.eksen.space]
+null_resource.node_ex (local-exec): changed: [app.eksen.space]
+null_resource.node_ex (local-exec): changed: [db02.eksen.space]
+null_resource.node_ex: Still creating... [10s elapsed]
+null_resource.node_ex (local-exec): changed: [eksen.space]
+null_resource.node_ex (local-exec): changed: [gitlab.eksen.space]
+null_resource.node_ex (local-exec): changed: [runner.eksen.space]
+null_resource.node_ex (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.node_ex (local-exec): TASK [node_ex : Unarchiving sources files] *************************************
+null_resource.node_ex (local-exec): changed: [app.eksen.space]
+null_resource.node_ex (local-exec): changed: [eksen.space]
+null_resource.node_ex (local-exec): changed: [db01.eksen.space]
+null_resource.node_ex (local-exec): changed: [db02.eksen.space]
+null_resource.node_ex (local-exec): changed: [gitlab.eksen.space]
+null_resource.node_ex (local-exec): changed: [runner.eksen.space]
+null_resource.node_ex (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.node_ex (local-exec): TASK [node_ex : Coping source files] *******************************************
+null_resource.node_ex (local-exec): changed: [eksen.space]
+null_resource.node_ex (local-exec): changed: [app.eksen.space]
+null_resource.node_ex (local-exec): changed: [db02.eksen.space]
+null_resource.node_ex (local-exec): changed: [db01.eksen.space]
+null_resource.node_ex (local-exec): changed: [gitlab.eksen.space]
+null_resource.node_ex: Still creating... [20s elapsed]
+null_resource.node_ex (local-exec): changed: [monitoring.eksen.space]
+null_resource.node_ex (local-exec): changed: [runner.eksen.space]
+
+null_resource.node_ex (local-exec): TASK [node_ex : Installing service] ********************************************
+null_resource.node_ex (local-exec): changed: [eksen.space]
+null_resource.node_ex (local-exec): changed: [db01.eksen.space]
+null_resource.node_ex (local-exec): changed: [app.eksen.space]
+null_resource.node_ex (local-exec): changed: [db02.eksen.space]
+null_resource.node_ex (local-exec): changed: [gitlab.eksen.space]
+null_resource.node_ex (local-exec): changed: [runner.eksen.space]
+null_resource.node_ex (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.node_ex (local-exec): TASK [node_ex : Configure service] *********************************************
+null_resource.node_ex (local-exec): changed: [app.eksen.space]
+null_resource.node_ex (local-exec): changed: [db01.eksen.space]
+null_resource.node_ex (local-exec): changed: [eksen.space]
+null_resource.node_ex (local-exec): changed: [db02.eksen.space]
+null_resource.node_ex (local-exec): changed: [gitlab.eksen.space]
+null_resource.node_ex (local-exec): changed: [runner.eksen.space]
+null_resource.node_ex (local-exec): changed: [monitoring.eksen.space]
+
+null_resource.node_ex (local-exec): PLAY RECAP *********************************************************************
+null_resource.node_ex (local-exec): app.eksen.space            : ok=6    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.node_ex (local-exec): db01.eksen.space           : ok=6    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.node_ex (local-exec): db02.eksen.space           : ok=6    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.node_ex (local-exec): eksen.space                : ok=6    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.node_ex (local-exec): gitlab.eksen.space         : ok=6    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.node_ex (local-exec): monitoring.eksen.space     : ok=6    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.node_ex (local-exec): runner.eksen.space         : ok=6    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.node_ex: Creation complete after 29s [id=5537376615249386107]
+
+Apply complete! Resources: 26 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+external_ip_address = "62.84.116.169"
+external_ip_address0 = ""
+external_ip_address1 = ""
+external_ip_address2 = ""
+external_ip_address3 = ""
+external_ip_address4 = ""
+external_ip_address5 = ""
+internal_ip_address = "192.168.1.9"
+internal_ip_address0 = "192.168.1.10"
+internal_ip_address1 = "192.168.1.11"
+internal_ip_address2 = "192.168.1.12"
+internal_ip_address3 = "192.168.1.13"
+internal_ip_address4 = "192.168.1.14"
+internal_ip_address5 = "192.168.1.15"
+
