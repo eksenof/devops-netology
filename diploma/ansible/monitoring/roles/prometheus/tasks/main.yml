@@ -33,6 +33,8 @@
       dest: /tmp/prometheus
       creates: /tmp/prometheus/prometheus-2.36.2.linux-amd64
       remote_src: yes
+    environment:
+      https_proxy: 'http://192.168.1.9:3128'
 
   - name: Coping source files
     copy:

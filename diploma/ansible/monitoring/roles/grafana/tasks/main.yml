@@ -4,28 +4,38 @@
     apt:
       update_cache: yes
 
-  - name: Adding gpg key
-    shell: curl https://packages.grafana.com/gpg.key | sudo apt-key add -
+  - name: Download grafana package
+    become: true
+    get_url:
+      url: https://dl.grafana.com/oss/release/grafana_9.1.5_amd64.deb
+      dest: /tmp/grafana_9.1.5_amd64.deb 
+      use_proxy: yes
+    environment:
+      https_proxy: 'http://192.168.1.9:3128'
 
-  - name: Adding repository
-    apt_repository:
-      repo: deb https://packages.grafana.com/oss/deb stable main
-      state: present
+  - name: Update packages
+    become: true
+    shell: apt --fix-broken -y install
 
-  - name: Installing grafana
+  - name: Install requirements
+    become: true
     apt:
-      name: grafana
-      state: present
-      update_cache: yes
+      name: 
+        - libfontconfig1
+        - fontconfig-config
 
-  - name: Enabling and starting grafana service
+  - name: Install grafana
+    become: true
+    shell: dpkg -i /tmp/grafana_9.1.5_amd64.deb
+
+  - name: Enable and start grafana service
     service:
       name: grafana-server
       enabled: yes
       state: started
 
 # grafana configuration    
-  - name: create /etc/grafana/provisioning/datasources/
+  - name: Create /etc/grafana/provisioning/datasources/
     become: true
     file:
       state: directory
@@ -35,7 +45,7 @@
       group: "grafana"
       mode: 0755
 
-  - name: copy the server binary to /etc/grafana/provisioning/datasources/
+  - name: Copy the server binary to /etc/grafana/provisioning/datasources/
     become: true
     copy:
       src: "grafana-prometheus-datasource.yml"
@@ -44,7 +54,7 @@
       owner: "grafana"
       group: "grafana"
 
-  - name: create /var/lib/grafana/dashboards/
+  - name: Create /var/lib/grafana/dashboards/
     become: true
     file:
       state: directory
@@ -54,7 +64,7 @@
       group: "grafana"
       mode: 0777
 
-  - name: wait for service up
+  - name: Wait for service up
     uri:
       url: "http://127.0.0.1:3000"
       status_code: 200

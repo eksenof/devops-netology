@@ -1,0 +1,28 @@
+---
+  - name: Install proxy for APT
+    hosts:
+      - db01
+      - db02
+      - wordpress
+      - gitlab
+      - runner
+      - monitoring
+    tasks:
+      - name: Configure APT proxy
+        become: true
+        template:
+          src: apt_proxy.conf
+          dest: /etc/apt/apt.conf.d/proxy.conf
+      - name: Add hosts in hosts file
+        become: true
+        lineinfile:
+          path: /etc/hosts
+          line: 
+            - 192.168.1.9  nle.eksen.space
+            - 192.168.1.10 db01.eksen.space
+            - 192.168.1.11 db02.eksen.space
+            - 192.168.1.12 app.eksen.space
+            - 192.168.1.13 gitlab.eksen.space
+            - 192.168.1.14 runner.eksen.space 
+            - 192.168.1.15 monitoring.eksen.space
+        

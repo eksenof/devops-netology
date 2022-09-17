@@ -1,23 +1,69 @@
 ---
-- name: Load platform-specific variables
-  include_vars: "{{ lookup('first_found', possible_files) }}"
-  vars:
-    possible_files:
-      files:
-        - '{{ ansible_distribution }}.yml'
-        - '{{ ansible_os_family }}.yml'
-        - 'default.yml'
-      paths:
-        - 'vars'
+- name: Install git
+  become: true
+  package:
+    name: "git"
+    state: present
+    update_cache: yes
 
-- name: Install Gitlab Runner (Container)
-  import_tasks: Container.yml
-  when: gitlab_runner_container_install
+- name: Download the binary for your system
+  become: true
+  get_url:
+    url: "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64"
+    dest: /usr/local/bin/gitlab-runner 
+    use_proxy: yes
+  environment:
+    https_proxy: 'http://192.168.1.9:3128'
 
-- name: Install GitLab Runner (Unix)
-  import_tasks: Unix.yml
-  when: ansible_os_family != 'Windows' and not gitlab_runner_container_install
+- name: Give it permission to execute
+  become: true
+  command: "chmod +x /usr/local/bin/gitlab-runner"
 
-- name: Install GitLab Runner (Windows)
-  import_tasks: Windows.yml
-  when: ansible_os_family == 'Windows' and not gitlab_runner_container_install
+- name: Add runner user
+  become: true
+  command: "useradd --comment 'GitLab Runner' --create-home runner --shell /bin/bash"
+
+- name: Install and run as a service
+  become: true
+  command: "gitlab-runner install --user=runner --working-directory=/home/runner"
+
+- name: Start runner
+  become: true
+  command: "gitlab-runner start"
+
+- name: Create directory for runner ssh keys
+  become: true
+  file:
+    name: /home/runner/.ssh/
+    state: directory
+
+- name: Copy id_rsa files
+  become: true
+  template:
+    src: templates/{{ item }}
+    dest: /home/runner/.ssh/
+  with_items:
+    - id_rsa.pub
+    - id_rsa
+    - known_hosts
+    
+- name: Set ownership on known_hosts file
+  file:
+    path: /home/runner/.ssh/known_hosts
+    state: file
+    owner: runner
+    group: runner
+
+#- name: Register runner
+#  become: true
+#  shell: gitlab-runner register \
+#    --non-interactive \
+#    --url "http://gitlab.{{ domain }}/" \
+#    --registration-token "7ibsJ2nE98TEmLMAxsdZ" \
+#    --description "codechecker" \
+#    --executor "shell"
+
+- name: Move .bash_logout
+  become: true
+  shell: >
+    rm /home/runner/.bash_logout

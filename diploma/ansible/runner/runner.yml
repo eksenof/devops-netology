@@ -1,5 +1,5 @@
 ---
-  - name: Installation gitlab
+  - name: Runner installation
     hosts: runner
     become: yes
     become_user: root

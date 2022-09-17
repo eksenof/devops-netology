@@ -1,0 +1,15 @@
+stages:         
+  - deploy
+
+deploy-job:      
+  stage: deploy
+
+  script:
+    - echo "start delivery" 
+    - ssh -o StrictHostKeyChecking=no runner@app.eksen.space sudo chown runner -R /var/www/wordpress/eksen.space/ 
+    - rsync -vz -e "ssh -o StrictHostKeyChecking=no" $CI_PROJECT_DIR/* runner@app.eksen.space:/var/www/wordpress/eksen.space/ 
+    - echo "remove .git repo from host"
+    - ssh -o StrictHostKeyChecking=no runner@app.eksen.space rm -rf /var/www/wordpress/eksen.space/.git
+    - echo "set www-data rigths"
+    - ssh -o StrictHostKeyChecking=no runner@app.eksen.space sudo chown www-data -R /var/www/wordpress/eksen.space/  
+    - echo "delivery complete!" 

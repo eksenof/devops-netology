@@ -29,54 +29,27 @@
     state: present
   when: ansible_os_family == 'Debian'
 
-- name: Download GitLab repository installation script.
+- name: Gitlab - Get package
   get_url:
-    url: "{{ gitlab_repository_installation_script_url }}"
-    dest: /tmp/gitlab_install_repository.sh
-    validate_certs: "{{ gitlab_download_validate_certs }}"
-  when: not gitlab_file.stat.exists
+    url: "https://packages.gitlab.com/gitlab/gitlab-ce/packages/ubuntu/focal/gitlab-ce_15.2.0-ce.0_amd64.deb/download.deb"
+    dest: /tmp/gitlab-ce.deb
+    use_proxy: yes
+  environment:
+    https_proxy: 'http://192.168.1.9:3128'
 
-- name: Install GitLab repository.
-  command: bash /tmp/gitlab_install_repository.sh
-  register: output
-  when: not gitlab_file.stat.exists
-
-- name: Define the Gitlab package name.
-  set_fact:
-    gitlab_package_name: "{{ gitlab_edition }}{{ gitlab_package_version_separator }}{{ gitlab_version }}"
-  when: gitlab_version | default(false)
-
-- name: Install GitLab
-  package:
-    name: "{{ gitlab_package_name | default(gitlab_edition) }}"
-    state: present
-  async: 300
-  poll: 5
-  when: not gitlab_file.stat.exists
+- name: Gitlab - Install a .deb package
+  become: true
+  apt:
+    deb: /tmp/gitlab-ce.deb
+  timeout: 600
 
 # Start and configure GitLab. Sometimes the first run fails, but after that,
 # restarts fix problems, so ignore failures on this run.
-#- name: Reconfigure GitLab (first run).
-#  command: >
-#    gitlab-ctl reconfigure
-#    creates=/var/opt/gitlab/bootstrapped
-#  failed_when: false
-
-#- name: Create GitLab SSL configuration folder.
-#  file:
-#    path: /etc/gitlab/ssl
-#    state: directory
-#    owner: root
-#    group: root
-#    mode: 0700
-#  when: gitlab_create_self_signed_cert
-
-#- name: Create self-signed certificate.
-#  command: >
-#    openssl req -new -nodes -x509 -subj "{{ gitlab_self_signed_cert_subj }}"
-#    -days 3650 -keyout {{ gitlab_ssl_certificate_key }} -out {{ gitlab_ssl_certificate }} -extensions v3_ca
-#    creates={{ gitlab_ssl_certificate }}
-#  when: gitlab_create_self_signed_cert
+- name: Reconfigure GitLab (first run).
+  command: >
+    gitlab-ctl reconfigure
+    creates=/var/opt/gitlab/bootstrapped
+  failed_when: false
 
 - name: Copy GitLab configuration file.
   template:
@@ -86,3 +59,9 @@
     group: root
     mode: 0600
   notify: restart gitlab
+  
+- name: Gitlab - Configure to listen on 0.0.0.0:9100
+  become: true
+  lineinfile:
+    path: /etc/gitlab/gitlab.rb
+    line: "node_exporter['listen_address'] = '0.0.0.0:9100'"

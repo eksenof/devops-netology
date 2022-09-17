@@ -1,49 +1,36 @@
 ---
-  - name: add hosts in local net in hosts file
-    become: true
-    lineinfile:
-      path: /etc/hosts
-      line: 
-        - 192.168.1.9  nle.eksen.space
-        - 192.168.1.10 db01.eksen.space
-        - 192.168.1.11 db02.eksen.space
-        - 192.168.1.12 app.eksen.space
-        - 192.168.1.13 gitlab.eksen.space
-        - 192.168.1.14 runner.eksen.space 
-        - 192.168.1.15 monitoring.eksen.space
-
-  - name: Updating remote system
+  - name: Update remote system
     apt:
       update_cache: yes
 
-  - name: Installing nginx
+  - name: Install nginx
     apt:
       name: nginx
       state: latest
 
-  - name: Disabling default site
+  - name: Disable default site
     file:
       path: /etc/nginx/sites-enabled/default
       state: absent
 
-  - name: Installing nginx configuration
+  - name: Install nginx configuration
     template:
       src: wordpress.conf
       dest: /etc/nginx/sites-available/wordpress.conf
 
-  - name: Activating site configuration
+  - name: Activate site configuration
     file:
       src: '/etc/nginx/sites-available/wordpress.conf'
       dest: '/etc/nginx/sites-enabled/wordpress.conf'
       state: 'link'
 
-  - name: Reloading nginx
+  - name: Reload nginx
     service:
       name: nginx
       state: restarted
       enabled: true
 
-  - name: Installing PHP
+  - name: Install PHP
     apt: 
       name:
         - php
@@ -58,15 +45,17 @@
         - php-xmlrpc
       state: latest
 
-#  - name: Downloading WordPress
-#    get_url:
-#      url: https://ru.wordpress.org/wordpress-6.0-ru_RU.tar.gz
-#      dest: /tmp/wordpress.tar.gz
-
-  - name: copy wordpress from local pc, because too many requests error from server
-    copy:
-      src: wordpress.tar.gz
+  - name: Downloading WordPress
+    get_url:
+      url: https://ru.wordpress.org/wordpress-6.0-ru_RU.tar.gz
       dest: /tmp/wordpress.tar.gz
+    environment:
+      https_proxy: 'http://192.168.1.9:3128'
+
+#  - name: Copy wordpress from local pc, because too many requests error from server
+#    copy:
+#      src: wordpress.tar.gz
+#      dest: /tmp/wordpress.tar.gz
     
   - name: Extract WordPress
     unarchive:
@@ -74,7 +63,7 @@
       dest: /var/www
       remote_src: yes
 
-  - name: Seting ownership
+  - name: Set ownership
     file:
       path: /var/www/wordpress
       state: directory
@@ -82,14 +71,52 @@
       owner: www-data
       group: www-data
 
-#  - name: Coping sample config file
-#    command:
-#      cmd:  mv /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php 
-#      creates: /var/www/wordpress/wp-config.php
-
-  - name: Installing wp configuration
+  - name: Install wp configuration
     template:
       src: wp-config.php
       dest: /var/www/wordpress/wp-config.php
       
- 
+  - name: Add the user for gitlab runner
+    become: true
+    ansible.builtin.user:
+      name: runner
+
+  - name: Add runner user to sudoers
+    become: true
+    user:
+      name=runner
+      groups=sudo
+      append=yes
+      state=present
+
+  - name: Allow gitlab_runner user to have passwordless sudo
+    become: true
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: '^runner'
+      line: 'runner ALL=(ALL) NOPASSWD: ALL'
+
+  - name: Create directory for runner authorized_keys
+    file:
+      name: /home/runner/.ssh/
+      state: directory
+
+  - name: Copy authorized_keys file
+    become: true
+    template:
+      src: templates/authorized_keys
+      dest: /home/runner/.ssh/
+      
+  - name: Create directory for project files
+    file:
+      name: /var/www/wordpress/eksen.space/
+      state: directory
+      
+  - name: Set ownership on project folder
+    file:
+      path: /var/www/wordpress/eksen.space/
+      state: directory
+      recurse: yes
+      owner: runner
+      group: runner

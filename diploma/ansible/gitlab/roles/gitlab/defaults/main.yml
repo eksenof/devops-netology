@@ -12,7 +12,7 @@ gitlab_config_template: "gitlab.rb.j2"
 gitlab_root_pass: "G1tl@bP@$$w0rd"
 
 # GitLab runner token after install
-gitlab_runner_token: "45817210-36f6-4093-8df5-f76b60481a09"
+gitlab_runner_token: "7ibsJ2nE98TEmLMAxsdZ"
 
 # SSL Configuration.
 gitlab_redirect_http_to_https: false

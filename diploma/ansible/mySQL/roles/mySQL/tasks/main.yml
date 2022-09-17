@@ -1,27 +1,27 @@
 ---
-  - name: Updating remote system
+  - name: Update remote system
     apt:
       update_cache: yes
 
-  - name: Installing mysqldb python library
+  - name: Install mysqldb python library
     apt:
       name:
         - python3-mysqldb
       state: present
 
-  - name: Installing mysql-server
+  - name: Install mysql-server
     apt:
       name:
         - mysql-server
       state: present
 
-  - name: Reloading mysql
+  - name: Reload mysql
     service:
       name: mysql
       state: restarted
       enabled: true
 
-  - name: Setuping user
+  - name: Setup user
     mysql_user:
       name: wordpress
       password: "wordpress"
